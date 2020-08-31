@@ -27,7 +27,7 @@ export const ProductInput = ({ product }) => {
           setName(e.target.value);
         }}
       />
-      <button onClick={onUpdate}>Update</button>
+      <button onClick={onUpdate}>Update</button> 
       <button onClick={onDelete}>Delete</button>
     </>
   );
