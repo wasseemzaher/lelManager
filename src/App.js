@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Layout from "./components/layout";
+import About from "./pages/about";
+import Contact from "./pages/contact";
+import routes from "./routes";
+import {
+  HashRouter,
+  Route,
+  Switch,
+  Link,
+  NavLink,
+  Redirect,
+} from "react-router-dom";
+
+require("dotenv").config();
+
+const loading = () => (
+  <div className="animated fadeIn pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+);
 
 function App() {
+  console.log(process.env);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Layout>
+      <HashRouter>
+        <React.Suspense fallback={loading()}>
+        {routes.map((route, idx) => {
+                return route.component ? (
+                  <Switch>
+                    <Route
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        name={route.name}
+                        render={() => <route.component />}
+                      />
+                  </Switch>
+                ) : null;
+                })};
+                </React.Suspense>
+      </HashRouter>
+      </Layout>
     </div>
   );
 }
