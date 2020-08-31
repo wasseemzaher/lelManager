@@ -1,14 +1,10 @@
 import React from "react";
 import Layout from "./components/layout";
-import About from "./pages/about";
-import Contact from "./pages/contact";
 import routes from "./routes";
 import {
   HashRouter,
   Route,
   Switch,
-  Link,
-  NavLink,
   Redirect,
 } from "react-router-dom";
 
@@ -39,7 +35,7 @@ function App() {
                       />
                   </Switch>
                 ) : null;
-                })};
+                })}
                 </React.Suspense>
       </HashRouter>
       </Layout>

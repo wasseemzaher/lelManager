@@ -6,6 +6,7 @@ const Gallery = React.lazy(() => import('./pages/gallery'));
 const Manage = React.lazy(() => import('./pages/manage'));
 const PrivateEvents = React.lazy(() => import('./pages/privateEvents'));
 const Testimonials = React.lazy(() => import('./pages/testimonials'));
+const Store = React.lazy(() => import('./pages/store'));
 
 const Home = About
 
@@ -15,6 +16,7 @@ const routes = [
     {path:'/contact', exact: false, name: 'Contact Us', component: Contact},
     {path:'/gallery', exact: false, name: 'Gallery', component: Gallery},
     {path:'/manage', exact: false, name: 'LEL Manager', component: Manage},
+    {path:'/store', exact: false, name: 'Provisions Store', component: Store},
     {path:'/privateEvents', exact: false, name: 'Private Events', component: PrivateEvents},
     {path:'/testimonials', exact: false, name: 'Testimonials', component: Testimonials},
 ]
