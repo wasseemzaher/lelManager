@@ -5,7 +5,6 @@ import {
   HashRouter,
   Route,
   Switch,
-  Redirect,
 } from "react-router-dom";
 
 require("dotenv").config();
@@ -25,7 +24,7 @@ function App() {
         <React.Suspense fallback={loading()}>
         {routes.map((route, idx) => {
                 return route.component ? (
-                  <Switch>
+                  <Switch key={idx}>
                     <Route
                         key={idx}
                         path={route.path}

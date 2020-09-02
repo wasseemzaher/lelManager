@@ -2,7 +2,6 @@ import React from "react";
 import {
   HashRouter,
   NavLink,
-  Redirect,
 } from "react-router-dom";
 // import classes from './navigationBar.css'
 
