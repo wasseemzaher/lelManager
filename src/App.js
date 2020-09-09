@@ -16,7 +16,6 @@ const loading = () => (
 );
 
 function App() {
-  console.log(process.env);
   return (
     <div>
       <Layout>

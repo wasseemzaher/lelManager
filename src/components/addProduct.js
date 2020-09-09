@@ -1,30 +1,65 @@
 import React from "react";
 import { ProductInput } from "../components/productInput";
 import firebase from "../db/firebase";
-import UploadMedia from "./uploadMedia";
+// import UploadMedia from "./uploadMedia";
 
 export default function AddProduct() {
   const [products, setProducts] = React.useState([]);
-  const [newProductName, setNewProductName] = React.useState();
-  const [newProductId, setNewProductId] = React.useState();
-  const [newProductMedia, setNewProductMedia] = React.useState();
-  const [newProductPrice, setNewProductPrice] = React.useState();
-  const [newProductStock, setNewProductStock] = React.useState();
-  const [newProductNotes, setNewPoductNotes] = React.useState();
-  const [newProductDescription, setNewProductDescription] = React.useState();
-  const [newProductDisplay, setNewProductDisplay] = React.useState();
-  const [newProductInstructions, setNewProductInstructions] = React.useState();
-  const [newProductTags, setNewProductTags] = React.useState();
-  const [newProductSalePrice, setNewProductSalePrice] = React.useState();
+  const [newProductName, setNewProductName] = React.useState("");
+  const [newProductMedia, setNewProductMedia] = React.useState([]);
+  const [newProductPrice, setNewProductPrice] = React.useState("");
+  const [newProductStock, setNewProductStock] = React.useState("");
+  const [newProductNotes, setNewPoductNotes] = React.useState("");
+  const [newProductDescription, setNewProductDescription] = React.useState("");
+  const [newProductDisplay, setNewProductDisplay] = React.useState("");
+  const [newProductInstructions, setNewProductInstructions] = React.useState(
+    ""
+  );
+  const [newProductTags, setNewProductTags] = React.useState([]);
+  const [newProductSalePrice, setNewProductSalePrice] = React.useState("");
+
+  const [file, setFile] = React.useState("");
+  const [url, setUrl] = React.useState("");
+  const [mediaFiles, setMediaFiles] = React.useState([]);
+
+
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+    setUrl(URL.createObjectURL(e.target.files[0]));
+    console.log(
+      "handleChange: file =",
+      e.target.files[0],
+      "  url = ",
+      URL.createObjectURL(e.target.files[0])
+    );
+  };
+
+  const storePhoto = (newProductId) => {
+    const db = firebase.firestore();
+    const storageRef = firebase.storage().ref().child(newProductId);
+    let storageURL = null;
+    storageRef.put(file).then(function (snap) {
+      // const storageURL = snap.ref.getDownloadURL().toString();
+      storageURL = snap.ref.location.bucket + "/" + newProductId;
+
+      db.collection("products")
+        .doc(newProductId)
+        .update({
+          media: firebase.firestore.FieldValue.arrayUnion(storageURL),
+        });
+
+      console.log("Success: uploaded file(s) to db: ", storageURL);
+    });
+    
+
+    setFile(null);
+    setUrl(null);
+  };
 
   const onAdd = () => {
     const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    // const = newProductMedia
     const newProduct = {
       name: newProductName,
-      media: newProductMedia,
       price: Number(newProductPrice),
       salePrice: Number(newProductSalePrice),
       stock: Number(newProductStock),
@@ -34,10 +69,20 @@ export default function AddProduct() {
       instructions: newProductInstructions,
       // tags: newProductTags,
     };
-    db.collection("products").add(newProduct);
-    console.log("newProductId= ", newProductId);
+    db.collection("products")
+      .add(newProduct)
+      .then(function (docRef) {
+        console.log("saving media files to product with ID ", docRef.id);
+        storePhoto(docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error adding new product: ", error);
+      });
   };
-
+  const previewStyle = {
+    maxHeight: "100px",
+    maxWidth: "100px",
+  };
   return (
     <ul>
       <label htmlFor="newProductName">Name </label>
@@ -47,7 +92,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductName(e.target.value)}
       />
       <br />
-      
 
       <label htmlFor="newProductPrice">Price </label>
       <input
@@ -115,6 +159,7 @@ export default function AddProduct() {
         name="on"
         value={newProductDisplay}
         checked
+        multiple
         onChange={(e) =>
           setNewProductDisplay(
             !document.getElementById("newProductDisplay").checked
@@ -124,13 +169,16 @@ export default function AddProduct() {
       <br />
 
       <label htmlFor="newProductMedia">Media </label>
-      <UploadMedia />
+      {/* <UploadMedia readyForUpload={readyForMediaUpload} getFiles={(mediaFiles) => getMediaFiles(mediaFiles)}/> */}
+      <input id="input" type="file" onChange={handleChange} />
+      <img src={url} style={previewStyle} alt="" />
       <br />
 
+      {/* <button onClick={() => onAdd()}>Add New Product</button> */}
       <button onClick={onAdd}>Add New Product</button>
 
-      {products.map((product) => (
-        <li key={product.name}>
+      {products.map((product, index) => (
+        <li key={index}>
           <ProductInput product={product} />
         </li>
       ))}
