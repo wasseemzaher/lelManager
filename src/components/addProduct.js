@@ -1,15 +1,14 @@
 import React from "react";
 import { ProductInput } from "../components/productInput";
 import firebase from "../db/firebase";
-// import UploadMedia from "./uploadMedia";
+import PreviewMedia from "./previewMedia";
 
 export default function AddProduct() {
   const [products, setProducts] = React.useState([]);
   const [newProductName, setNewProductName] = React.useState("");
-  const [newProductMedia, setNewProductMedia] = React.useState([]);
   const [newProductPrice, setNewProductPrice] = React.useState("");
   const [newProductStock, setNewProductStock] = React.useState("");
-  const [newProductNotes, setNewPoductNotes] = React.useState("");
+  const [newProductNotes, setNewProductNotes] = React.useState("");
   const [newProductDescription, setNewProductDescription] = React.useState("");
   const [newProductDisplay, setNewProductDisplay] = React.useState("");
   const [newProductInstructions, setNewProductInstructions] = React.useState(
@@ -41,16 +40,26 @@ export default function AddProduct() {
     let storageURL = [];
     let storageRef;
 
-    files.map((file, index) =>{
-    storageRef = firebase.storage().ref().child(newProductId + "/" + index)
+    files.map((file, index) => {
+      storageRef = firebase
+        .storage()
+        .ref()
+        .child(newProductId + "/" + index);
       storageRef.put(file).then(function (snap) {
-        storageURL[index] = snap.ref.location.bucket + "/" + newProductId + "/" + index;
+        storageURL[index] =
+          snap.ref.location.bucket + "/" + newProductId + "/" + index;
         db.collection("products")
-        .doc(newProductId)
-        .update({media: firebase.firestore.FieldValue.arrayUnion(storageURL[index])})
-      })
+          .doc(newProductId)
+          .update({
+            media: firebase.firestore.FieldValue.arrayUnion(storageURL[index]),
+          });
+      });
     });
-    console.log("added the following media file(s) to product: ",newProductId,storageURL)
+    console.log(
+      "added the following media file(s) to product: ",
+      newProductId,
+      storageURL
+    );
 
     setFiles([]);
     setUrls([]);
@@ -79,10 +88,21 @@ export default function AddProduct() {
         console.error("Error adding new product: ", error);
       });
   };
-  const previewStyle = {
-    maxHeight: "100px",
-    maxWidth: "100px",
-  };
+
+  const onClear =() =>{
+    setNewProductName("")
+    setNewProductPrice("")
+    setNewProductStock("")
+    setNewProductSalePrice("")
+    setNewProductNotes("")
+    setNewProductDescription("")
+    setNewProductInstructions("")
+    setNewProductDisplay(true)
+    setNewProductTags([])
+    setFiles([]);
+    setUrls([]);
+  }
+  
   return (
     <ul>
       <label htmlFor="newProductName">Name </label>
@@ -92,7 +112,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductName(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductPrice">Price </label>
       <input
         type="number"
@@ -101,7 +120,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductPrice(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductStock">Stock </label>
       <input
         id="newProductStock"
@@ -110,7 +128,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductStock(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductSalePrice">Sale Price </label>
       <input
         id="newProductSalePrice"
@@ -119,15 +136,13 @@ export default function AddProduct() {
         onChange={(e) => setNewProductSalePrice(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductNotes">Notes </label>
       <input
         id="newProductNotes"
         value={newProductNotes}
-        onChange={(e) => setNewPoductNotes(e.target.value)}
+        onChange={(e) => setNewProductNotes(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductDescription">Description </label>
       <input
         id="newProductDescription"
@@ -135,7 +150,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductDescription(e.target.value)}
       />
       <br />
-
       <label htmlFor="newProductInstructions">Instructions </label>
       <input
         id="newProductInstructions"
@@ -143,7 +157,6 @@ export default function AddProduct() {
         onChange={(e) => setNewProductInstructions(e.target.value)}
       />
       <br />
-
       {/* <label htmlFor="newProductTags">Tags </label>
         <input
           id="newProductTags"
@@ -151,7 +164,6 @@ export default function AddProduct() {
           onChange={e => setNewProductTags(e.target.value)}
         />
         <br /> */}
-
       <label htmlFor="newProductDisplay">Show product? </label>
       <input
         type="checkbox"
@@ -166,24 +178,18 @@ export default function AddProduct() {
         }
       />
       <br />
-
       <label htmlFor="newProductMedia">Media </label>
       <input id="input" type="file" onChange={handleChange} multiple />
-      {/* <div>
-        {urls.map((url) => {
-          return <img src={url} style={previewStyle} alt="" />;
-        })}
-      </div> */}
       <br />
+      <PreviewMedia arrSource={urls}/>
+      <br />
+      
 
       <button onClick={onAdd}>Add New Product</button>
+      <button onClick={onClear}>Clear data</button>
 
-      {products.map((product, index) => (
-        <li key={index}>
-          <ProductInput product={product} />
-        </li>
-      ))}
+     
+      <ListProducts />
     </ul>
-    // <ListProducts />
   );
 }

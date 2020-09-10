@@ -1,30 +1,11 @@
-import React from "react";
-import firebase from "../db/firebase";
-import { ProductInput } from "../components/productInput"
+import React from 'react'
+import firebase from '../db/firebase'
 
-export default function ListProduct() {
-  const [products, setProducts] = React.useState([]);
+export default ListProducts =()=>{
+db = firebase.firestore()
 
-  React.useEffect(() => {
-    const db = firebase.firestore();
-
-    // Here is how you subscribe to the data to update any changes in values in realtime.
-    const unsubscribe = db.collection("products").onSnapshot((snapshot) => {
-      const productsData = [];
-      snapshot.forEach((doc) =>
-        productsData.push({ ...doc.data(), id: doc.id })
-      );
-      setProducts(productsData);
-    });
-    return unsubscribe;
-  }, []);
-  return (
-    <div>
-      {products.map((product) => (
-        <li key={product.name}>
-          <ProductInput product={product} />
-        </li>
-      ))}
-    </div>
-  );
-}
+  products.map((product, index) => (
+  <li key={index}>
+    <ProductInput product={product} />
+  </li>
+))}
