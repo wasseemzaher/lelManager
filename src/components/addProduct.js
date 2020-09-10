@@ -18,42 +18,42 @@ export default function AddProduct() {
   const [newProductTags, setNewProductTags] = React.useState([]);
   const [newProductSalePrice, setNewProductSalePrice] = React.useState("");
 
-  const [file, setFile] = React.useState("");
-  const [url, setUrl] = React.useState("");
-  const [mediaFiles, setMediaFiles] = React.useState([]);
-
+  const [files, setFiles] = React.useState([]);
+  const [urls, setUrls] = React.useState([]);
 
   const handleChange = (e) => {
-    setFile(e.target.files[0]);
-    setUrl(URL.createObjectURL(e.target.files[0]));
-    console.log(
-      "handleChange: file =",
-      e.target.files[0],
-      "  url = ",
-      URL.createObjectURL(e.target.files[0])
-    );
+    // setFile(e.target.files[0]);
+    const arrFiles = Array.from(e.target.files);
+    const arrUrls = [];
+    arrFiles.map((file, index) => {
+      arrUrls[index] = URL.createObjectURL(file);
+      console.log("arrUrls[", index, "] = ", arrUrls[index]);
+    });
+
+    setFiles(arrFiles);
+    setUrls(arrUrls);
+
+    // setUrl(URL.createObjectURL(e.target.files[0]));
   };
 
   const storePhoto = (newProductId) => {
     const db = firebase.firestore();
-    const storageRef = firebase.storage().ref().child(newProductId);
-    let storageURL = null;
-    storageRef.put(file).then(function (snap) {
-      // const storageURL = snap.ref.getDownloadURL().toString();
-      storageURL = snap.ref.location.bucket + "/" + newProductId;
+    let storageURL = [];
+    let storageRef;
 
-      db.collection("products")
+    files.map((file, index) =>{
+    storageRef = firebase.storage().ref().child(newProductId + "/" + index)
+      storageRef.put(file).then(function (snap) {
+        storageURL[index] = snap.ref.location.bucket + "/" + newProductId + "/" + index;
+        db.collection("products")
         .doc(newProductId)
-        .update({
-          media: firebase.firestore.FieldValue.arrayUnion(storageURL),
-        });
-
-      console.log("Success: uploaded file(s) to db: ", storageURL);
+        .update({media: firebase.firestore.FieldValue.arrayUnion(storageURL[index])})
+      })
     });
-    
+    console.log("added the following media file(s) to product: ",newProductId,storageURL)
 
-    setFile(null);
-    setUrl(null);
+    setFiles([]);
+    setUrls([]);
   };
 
   const onAdd = () => {
@@ -159,7 +159,6 @@ export default function AddProduct() {
         name="on"
         value={newProductDisplay}
         checked
-        multiple
         onChange={(e) =>
           setNewProductDisplay(
             !document.getElementById("newProductDisplay").checked
@@ -169,12 +168,14 @@ export default function AddProduct() {
       <br />
 
       <label htmlFor="newProductMedia">Media </label>
-      {/* <UploadMedia readyForUpload={readyForMediaUpload} getFiles={(mediaFiles) => getMediaFiles(mediaFiles)}/> */}
-      <input id="input" type="file" onChange={handleChange} />
-      <img src={url} style={previewStyle} alt="" />
+      <input id="input" type="file" onChange={handleChange} multiple />
+      {/* <div>
+        {urls.map((url) => {
+          return <img src={url} style={previewStyle} alt="" />;
+        })}
+      </div> */}
       <br />
 
-      {/* <button onClick={() => onAdd()}>Add New Product</button> */}
       <button onClick={onAdd}>Add New Product</button>
 
       {products.map((product, index) => (
