@@ -2,7 +2,7 @@ import React from "react";
 import { ProductInput } from "../components/productInput";
 import firebase from "../db/firebase";
 import PreviewMedia from "./previewMedia";
-
+import ListProducts from "./listProducts.js"
 export default function AddProduct() {
   const [products, setProducts] = React.useState([]);
   const [newProductName, setNewProductName] = React.useState("");

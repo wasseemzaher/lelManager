@@ -1,11 +1,13 @@
 import React from 'react'
 import firebase from '../db/firebase'
+import ProductEditor from './productEditor'
 
-export default ListProducts =()=>{
-db = firebase.firestore()
+export default function ListProducts({products}) {
+const db = firebase.firestore()
 
   products.map((product, index) => (
   <li key={index}>
-    <ProductInput product={product} />
+    {/* <ProductInput product={product} /> */}
+    <ProductEditor product={product} />
   </li>
 ))}
