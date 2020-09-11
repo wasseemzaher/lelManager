@@ -93,7 +93,7 @@ export default function Product(props) {
   };
 
   function onClear() {
-    
+
     if (props.mode === "create" || props.mode === "edit") {
       setName("");
       setPrice(Number(""));
@@ -103,22 +103,22 @@ export default function Product(props) {
       setDescription("");
       setInstructions("");
       setDisplay(true);
-      setTags([]);
+      // setTags([]);
       setFiles([]);
       setUrls([]);
     }
   }
-  const onUpdate = () => {
-    const db = firebase.firestore();
-    db.collection("products")
-      .doc(product.id)
-      .set({ ...product, name });
-  };
+  // const onUpdate = () => {
+  //   const db = firebase.firestore();
+  //   db.collection("products")
+  //     .doc(product.id)
+  //     .set({ ...product, name });
+  // };
 
-  const onDelete = () => {
-    const db = firebase.firestore();
-    db.collection("products").doc(product.id).delete();
-  };
+  // const onDelete = () => {
+  //   const db = firebase.firestore();
+  //   db.collection("products").doc(product.id).delete();
+  // };
 
   return (
     <>
