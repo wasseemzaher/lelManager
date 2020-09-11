@@ -197,8 +197,8 @@ export default function Product(props) {
 
       <button onClick={onAdd}>Add New Product</button>
       <button onClick={onClear}>Clear data</button>
-      <button onClick={onUpdate}>Update</button>
-      <button onClick={onDelete}>Delete</button>
+      {/* <button onClick={onUpdate}>Update</button>
+      <button onClick={onDelete}>Delete</button> */}
     </>
   );
 }
