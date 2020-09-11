@@ -5,7 +5,7 @@ import PreviewMedia from "./previewMedia";
 export default function Product(props) {
   // props.mode = {"create" || "edit" || "view"}
   // props.productId
-
+const [product, setProduct]= React.useState(props.product)
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [stock, setStock] = React.useState("");
@@ -19,7 +19,7 @@ export default function Product(props) {
   const [urls, setUrls] = React.useState([]);
 
   const chooseFiles = (e) => {
-    if (props.mode === "create") {
+    if (props.mode === "create" || props.mode ==="edit") {
       const arrFiles = Array.from(e.target.files);
       const arrUrls = [];
       arrFiles.map((file, index) => {
@@ -197,6 +197,8 @@ export default function Product(props) {
 
       <button onClick={onAdd}>Add New Product</button>
       <button onClick={onClear}>Clear data</button>
+      <br />
+
       {/* <button onClick={onUpdate}>Update</button>
       <button onClick={onDelete}>Delete</button> */}
     </>

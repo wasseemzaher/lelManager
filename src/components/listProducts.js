@@ -3,10 +3,9 @@ import firebase from "../db/firebase";
 import Product from "./product";
 // import productDataSubscribe from "../db/productDataSubscribe"
 
-export default function ListProducts(props) {
-  
+export default function ListProducts() {
   const [products, setProducts] = React.useState([]);
-  
+
   React.useEffect(() => {
     const db = firebase.firestore();
 
@@ -24,13 +23,11 @@ export default function ListProducts(props) {
   return (
     <div>
       <ul>
-        {
-        products.map((product, index) => {
-          <li key={index}>
-            {console.log("product = ", product)}
-            <Product product={product} mode={props.mode}/>
-          </li>;
-        })}
+        <li >
+          {products.map((product, index) => (
+            <Product product={product} mode="edit" />
+          ))}
+        </li>
       </ul>
       <h3> success</h3>
     </div>

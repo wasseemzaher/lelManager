@@ -6,9 +6,10 @@ export default function Manage() {
   return (
     <div>
       <h3>Add a new product:</h3>
-      <Product mode="view"/>
+      <Product mode="create"/>
       <h3>Defined Products:</h3>
-      <ListProducts mode="view"/>
+      {/* <Product mode="edit"/> */}
+      <ListProducts />
     </div>
   );
 }
