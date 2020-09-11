@@ -23,10 +23,10 @@ export default function ListProducts() {
   return (
     <div>
       <ul>
-        <li >
-          {products.map((product, index) => (
-            <Product product={product} mode="edit" />
-          ))}
+        <li>
+          {products.map((product, index) => {
+            <Product key={product.id} product={product} mode="edit" />;
+          })}
         </li>
       </ul>
       <h3> success</h3>

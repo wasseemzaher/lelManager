@@ -11,7 +11,7 @@ const [product, setProduct]= React.useState(props.product)
   const [stock, setStock] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [display, setDisplay] = React.useState("");
+  const [display, setDisplay] = React.useState(true);
   const [instructions, setInstructions] = React.useState("");
   const [salePrice, setSalePrice] = React.useState("");
   //   const [tags, setTags] = React.useState([]);
@@ -76,7 +76,7 @@ const [product, setProduct]= React.useState(props.product)
         stock: Number(stock),
         notes: notes,
         description: description,
-        display: document.getElementById("display").checked,
+        display: display,
         instructions: instructions,
         // tags: Tags,
       };
@@ -183,10 +183,8 @@ const [product, setProduct]= React.useState(props.product)
         id="display"
         name="on"
         value={display}
-        checked
-        onChange={(e) =>
-          setDisplay(!document.getElementById("display").checked)
-        }
+        onChange={() => setDisplay(!display)}
+        checked={display}
       />
       <br />
       <label htmlFor="media">Media </label>
