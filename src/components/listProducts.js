@@ -24,9 +24,9 @@ export default function ListProducts() {
     <div>
       <ul>
         <li>
-          {products.map((product, index) => {
-            <Product key={product.id} product={product} mode="edit" />;
-          })}
+          {products.map((product, index) => (
+            <Product key={product.id} product={product} mode="edit" />
+          ))}
         </li>
       </ul>
       <h3> success</h3>
