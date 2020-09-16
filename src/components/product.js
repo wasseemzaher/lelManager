@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "../db/firebase";
 import PreviewMedia from "./previewMedia";
+import { Checkbox, Button } from '@material-ui/core';
 
 export default function Product(props) {
   // props.mode = {"create" || "edit" || "view"}
@@ -178,10 +179,12 @@ const [product, setProduct]= React.useState(props.product)
         />
         <br /> */}
       <label htmlFor="display">Show product? </label>
-      <input
-        type="checkbox"
+      <Checkbox
+        // type="checkbox"
         id="display"
+        color="primary"
         name="on"
+        disabled={false}
         value={display}
         onChange={() => setDisplay(!display)}
         checked={display}
@@ -193,7 +196,7 @@ const [product, setProduct]= React.useState(props.product)
       <PreviewMedia arrSource={urls} />
       <br />
 
-      <button onClick={onAdd}>Add New Product</button>
+      <Button disabled={true} onClick={onAdd}>Add New Product</Button>
       <button onClick={onClear}>Clear data</button>
       <br />
 
