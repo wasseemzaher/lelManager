@@ -21,10 +21,10 @@ export default function Manage() {
       <Paper className={classes.pageContent}>
         <ProductForm />
       </Paper>
-      <Product mode="create" />
+      {/* <Product mode="create" /> */}
       <h3>Defined Products:</h3>
       {/* <Product mode="edit"/> */}
-      <ListProducts />
+      {/* <ListProducts /> */}
     </div>
   );
 }
