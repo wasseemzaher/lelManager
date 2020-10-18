@@ -128,16 +128,17 @@ export default function Product(props) {
   // };
 
   return (
-    <Card raised={true}>
-      <CardHeader title="Add a new product:" />
-      <Grid
-        container
-        spacing={1}
-        lg={12}
-        alignContent="stretch"
-        direction="row"
-      >
-        <Grid container item xs={12} lg={6} spacing={3} direction="column">
+    // <Card raised={true}>
+    //   <CardHeader title="Add a new product:" />
+    //   <Grid
+    //     container
+    //     spacing={1}
+    //     lg={12}
+    //     alignContent="stretch"
+    //     direction="row"
+    //   >
+    //     <Grid container item xs={12} lg={6} spacing={3} direction="column">
+            <div>
             <label htmlFor="name">Name </label>
             <input
               id="name"
@@ -145,7 +146,7 @@ export default function Product(props) {
               onChange={(e) => setName(e.target.value)}
             />
           <br />
-        </Grid>
+         {/* </Grid> */}
         <label htmlFor="price">Price </label>
         <input
           type="number"
@@ -215,7 +216,7 @@ export default function Product(props) {
         <br />
         <PreviewMedia arrSource={urls} />
         <br />
-      </Grid>
+       {/* </Grid> */}
 
       <Button
         variant="contained"
@@ -239,6 +240,7 @@ export default function Product(props) {
 
       {/* <button onClick={onUpdate}>Update</button>
       <button onClick={onDelete}>Delete</button> */}
-    </Card>
+    {/* </Card> */}
+    </div>
   );
 }
