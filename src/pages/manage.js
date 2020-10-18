@@ -22,7 +22,7 @@ export default function Manage() {
         <ProductForm />
       </Paper>
       {/* <Product mode="create" /> */}
-      <h3>Defined Products:</h3>
+      {/* <h3>Defined Products:</h3> */}
       {/* <Product mode="edit"/> */}
       {/* <ListProducts /> */}
     </div>
