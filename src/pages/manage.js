@@ -18,11 +18,11 @@ export default function Manage() {
   
   return (
     <div>
-      <Paper className={classes.pageContent}>
+      {/* <Paper className={classes.pageContent}>
         <ProductForm />
-      </Paper>
-      {/* <Product mode="create" /> */}
-      <h3>Defined Products:</h3>
+      </Paper> */}
+      <Product mode="create" />
+      {/* <h3>Defined Products:</h3> */}
       {/* <Product mode="edit"/> */}
       {/* <ListProducts /> */}
     </div>
